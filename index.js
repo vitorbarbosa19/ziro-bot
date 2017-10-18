@@ -20,4 +20,4 @@ const ziroBot = function(req, res) {
 
 }
 
-module.exports = ziroBot
+export default ziroBot
