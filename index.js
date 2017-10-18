@@ -1,19 +1,23 @@
 const express = require('express')
 const request = require('request')
 
-const app = express()
+const ziroBot = function(req, res) {
 
-app.get('/', function (req, res) {
-	request('https://www.instagram.com/ziromoda/media/?max_id=1', function(error, response, body) {
-		const images = JSON.parse(body).items.map( function(post) {
-			return post.images.standard_resolution.url
+	const app = express()
+
+	app.get('/', function (req, res) {
+		request('https://www.instagram.com/ziromoda/media/?max_id=1', function(error, response, body) {
+			const images = JSON.parse(body).items.map( function(post) {
+				return post.images.standard_resolution.url
+			})
+			res.send(images)
 		})
-		res.send(images)
 	})
-})
 
-app.listen(8080, function() {
-	console.log('App is running at http://localhost:8082')
-})
+	app.listen(8080, function() {
+		console.log('App is running at http://localhost:8082')
+	})
+
+}
 
 module.exports = ziroBot
