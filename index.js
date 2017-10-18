@@ -1,7 +1,7 @@
 const express = require('express')
 const request = require('request')
 
-const ziroBot = express()
+exports.ziroBot = express()
 
 ziroBot.get('/', function (req, res) {
 	request('https://www.instagram.com/ziromoda/media/?max_id=1', function(error, response, body) {
@@ -21,5 +21,3 @@ if (module === require.main) {
 ziroBot.listen(8080, function() {
 	console.log('Ziro Bot is listening on address http://localhost:8080')
 })
-
-module.exports = ziroBot
