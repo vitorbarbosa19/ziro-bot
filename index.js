@@ -1,7 +1,7 @@
 const express = require('express')
 const request = require('request')
 
-const ziroBot = function(req, res) {
+exports.ziroBot = function(req, res) {
 
 	const app = express()
 
@@ -19,5 +19,3 @@ const ziroBot = function(req, res) {
 	})
 
 }
-
-export default ziroBot
