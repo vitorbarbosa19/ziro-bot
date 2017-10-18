@@ -1,16 +1,13 @@
-const express = require('express')
 const request = require('request')
 
-exports.ziroBot = express()
-
-ziroBot.get('/', function (req, res) {
+exports.ziroBot = function ziroBot (req, res) {
 	request('https://www.instagram.com/ziromoda/media/?max_id=1', function(error, response, body) {
 		const images = JSON.parse(body).items.map( function(post) {
 			return post.images.standard_resolution.url
 		})
 		res.send(images)
 	})
-})
+}
 
 if (module === require.main) {
 	const server = ziroBot.listen(process.env.PORT || 8081, function() {
@@ -18,6 +15,6 @@ if (module === require.main) {
 	})
 }
 
-ziroBot.listen(8080, function() {
-	console.log('Ziro Bot is listening on address http://localhost:8080')
-})
+// ziroBot.listen(8080, function() {
+// 	console.log('Ziro Bot is listening on address http://localhost:8080')
+// })
