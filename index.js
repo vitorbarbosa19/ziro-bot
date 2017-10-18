@@ -12,6 +12,6 @@ app.get('/', function (req, res) {
 	})
 })
 
-app.listen(8082, function() {
+app.listen(8080, function() {
 	console.log('App is running at http://localhost:8082')
 })
