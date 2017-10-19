@@ -1,16 +1,20 @@
 {
   "name": "ziro-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Application that downloads photos from multiple ig accounts",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "micro"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "atacado",
+    "moda",
+    "bom retiro"
+  ],
+  "author": "Vitor Barbosa",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.2",
+    "micro": "^9.0.0",
     "request": "^2.83.0"
   }
 }
