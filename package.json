@@ -1,7 +1,7 @@
 {
   "name": "ziro-bot",
   "version": "1.0.0",
-  "description": "Application that downloads photos from multiple ig accounts",
+  "description": "Application that downloads photos from multiple ig accounts serving as an API for Ziro's catalog of clothes",
   "main": "index.js",
   "scripts": {
     "start": "micro"
