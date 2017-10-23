@@ -15,9 +15,9 @@ module.exports = (req, res) => {
 			return post.images.standard_resolution.url
 		})
 		
-		res.setHeader('Access-Control-Allow-Origin', '*') //REMOVE if deployed to custom domain
+		res.setHeader('Access-Control-Allow-Origin', '*')
 		
-		res.end(JSON.stringify(arrayOfImagesUrls.slice(0, max_quantity))) //send only the request amount
+		res.end(JSON.stringify(arrayOfImagesUrls.slice(0, max_quantity))) //send only the requested amount
 
 	})
 }

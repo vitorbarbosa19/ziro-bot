@@ -13,9 +13,6 @@ exports.zirobot = functions.https.onRequest( (req, res) => {
 			const arrayOfImagesUrls = JSON.parse(body).items.map( post => {
 				return post.images.standard_resolution.url
 			})
-			
-			res.setHeader('Access-Control-Allow-Origin', '*') //REMOVE if deployed to custom domain
-
 			res.end(JSON.stringify(arrayOfImagesUrls.slice(0, max_quantity))) //send only the requested amount
 		}
 		else
