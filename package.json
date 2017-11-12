@@ -13,7 +13,9 @@
   "author": "Vitor Barbosa",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.1",
     "micro": "^9.0.0",
+    "puppeteer": "^0.13.0",
     "request": "^2.83.0"
   }
 }
