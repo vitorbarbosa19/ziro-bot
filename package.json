@@ -3,19 +3,26 @@
   "version": "1.0.0",
   "description": "Application that downloads photos from multiple ig accounts serving as an API for Ziro's catalog of clothes",
   "main": "index.js",
+  "repository": "https://github.com/vitorbarbosa19/ziro-bot",
   "scripts": {
-    "start": "micro"
+    "start": "micro",
+    "dev": "micro-dev"
   },
   "keywords": [
     "node",
-    "micro"
+    "micro",
+    "puppeteer"
   ],
   "author": "Vitor Barbosa",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",
+    "dotenv": "^4.0.0",
+    "image-downloader": "^3.3.0",
     "micro": "^9.0.0",
-    "puppeteer": "^0.13.0",
-    "request": "^2.83.0"
+    "puppeteer": "^0.13.0"
+  },
+  "devDependencies": {
+    "micro-dev": "^1.4.0"
   }
 }
