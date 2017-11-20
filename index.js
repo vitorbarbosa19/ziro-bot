@@ -4,12 +4,12 @@ module.exports = async (req, res) => {
 	if(req.url === '/favicon.ico')
 		res.end()
 	else {
-		// load from google spreadsheet all ig accounts and last download date for each
+		// load from google spreadsheet a list of all ig accounts and the last download date for each
 	  let igAccountsAndDownloadDates = []
 	  try {
 	  	const brands = require('./utils/brandsApi')
 	  	igAccountsAndDownloadDates = await brands.fetchDownloadDates()
-	  	console.log(igAccountsAndDownloadDates)
+	  	//console.log(igAccountsAndDownloadDates)
 	  } catch (error) {
 	  		console.log(error.response.data)
 	  		send(res, 200, error.response.data)
