@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 
 const scraper = async (accountsAndDates) => {
-  return Promise.all(accountsAndDates.map( ([account, date = new Date(Date.now())]) => {
+  return Promise.all(accountsAndDates.map( ([account]) => {
 		return new Promise( (resolve, reject) => {
 			puppeteer.launch().then(async browser => {
 				try {
