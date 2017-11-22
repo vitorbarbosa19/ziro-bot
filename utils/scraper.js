@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 
 const scraper = async (accountsAndDates) => {
-  return Promise.all(accountsAndDates.map( ([account]) => {
+  return Promise.all(accountsAndDates.map( ([account, lastDownload = new Date()]) => {
 		return new Promise( (resolve, reject) => {
 			puppeteer.launch().then(async browser => {
 				try {
@@ -24,7 +24,7 @@ const scraper = async (accountsAndDates) => {
 							brandImageUrls.push(anchorTag)
 					})
 					await browser.close()
-					resolve(brandImageUrls)
+					resolve({account: account, imageUrls: brandImageUrls, lastDownload: lastDownload })
 				} catch (error) {
 					reject(error)
 				}

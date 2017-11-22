@@ -13,11 +13,10 @@ module.exports = async (req, res) => {
 	  		send(res, 200, error.response.data)
 	  }
 	  // iterate over all ig accounts loaded on previous step, saving all image urls for each account
-	  let allImageUrls = []
+	  let accountData = []
 	  try {
 		  const scraper = require('./utils/scraper')
-		  allImageUrls = await scraper(igAccountsAndDownloadDates)
-		  console.log(allImageUrls)
+		  accountData = await scraper(igAccountsAndDownloadDates)
 	  } catch (error) {
 		  	console.log(error)
 		  	send(res, 200, error)
@@ -25,12 +24,13 @@ module.exports = async (req, res) => {
 	  // visit each image url and download the image if it's newer than the last download date
 	  try {
 	  	const downloader = require('./utils/downloader')
-	  	const result = await downloader(allImageUrls)
+	  	const result = await downloader(accountData)
 	  	console.log(result)
 	  } catch (error) {
 	  		console.log(error)
 	  		send(res, 200, error)
 	  }
+	  res.end('Atividade concluída!')
 	  // await page.goto(allAnchors[1])
 	  // const imgUrl = await page.evaluate( () => {
 	  // 	return [].map.call(document.getElementsByTagName('img'), img => img.src)
