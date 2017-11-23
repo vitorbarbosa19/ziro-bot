@@ -22,27 +22,28 @@ module.exports = async (req, res) => {
 		  	send(res, 200, error)
 	  }
 	  // visit each image url and download the image if it's newer than the last download date
+	  let result = []
 	  try {
 	  	const downloader = require('./utils/downloader')
-	  	const result = await downloader(accountData)
+	  	result = await downloader(accountData)
 	  	console.log(result)
 	  } catch (error) {
 	  		console.log(error)
 	  		send(res, 200, error)
 	  }
-	  res.end('Atividade concluída!')
-	  // await page.goto(allAnchors[1])
-	  // const imgUrl = await page.evaluate( () => {
-	  // 	return [].map.call(document.getElementsByTagName('img'), img => img.src)
-	  // })
-	  // const dates = await page.evaluate( () => {
-	  // 	return [].map.call(document.getElementsByTagName('time'), time => time.getAttribute('datetime'))
-	  // })
-	  // console.log(dates)
-	  
 
-	  // console.log(imgUrl)
-	  // const download = require('image-downloader')
+	  const mkdir = require('mkdirp')
+	  const download = require('image-downloader')
+	  Promise.all(result.map( (allUrls) => {
+	  	return Promise.all(allUrls.map( (url) => {
+	  		return new Promise( async (resolve, reject) => {
+		  		await download.image({
+		  			url: url,
+		  			dest: './images'
+		  		})
+		  	})
+	  	}))
+	  }))
 	  // downloadImg = imgUrl.map( async (url) => {
 	  // 	try {
 	  // 		await download.image({
