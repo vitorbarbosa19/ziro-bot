@@ -1,18 +1,23 @@
 const mkdirp = require('mkdirp')
 const downloader = require('image-downloader')
 
-const downloadToServer = () => {
-	return Promise.all(photosToDownload.map( (allUrls) => {
-  	return Promise.all(allUrls.map( (url) => {
+const downloadToServer = (photosToDownload) => {
+	return Promise.all(photosToDownload.map( (accountPhotos) => {
+  	return Promise.all(accountPhotos.photosSrcs.map( (photoSrc) => {
   		return new Promise( async (resolve, reject) => {
-	  		await downloader.image({
-	  			url: url,
-	  			dest: './images'
-	  		})
+	  		try {
+		  		const { filename } = await downloader.image({
+		  			url: photoSrc,
+		  			dest: './images'
+		  		})
+		  		resolve(filename)
+	  		} catch (error) {
+	  				reject(error)
+	  		}
+	  		
 	  	})
   	}))
   }))
 }
-	  
 
 module.exports = downloadToServer

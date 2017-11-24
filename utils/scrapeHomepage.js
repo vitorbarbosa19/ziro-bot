@@ -24,9 +24,9 @@ const scrapeHomepage = (accountsAndDates) => {
 							brandImageUrls.push(anchorTag)
 					})
 					await browser.close()
-					resolve({account: account, imageUrls: brandImageUrls, lastDownload: lastDownload })
+					resolve({accountName: account, imageUrls: brandImageUrls, lastDownload: lastDownload })
 				} catch (error) {
-					reject(error)
+						reject(error)
 				}
 			})
 		})

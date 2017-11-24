@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
 		  imageUrlsToScrape = await scrapeHomepage(igAccountsAndDownloadDates)
 	  } catch (error) {
 		  	console.log(error)
-		  	send(res, 200, ['Error on server function "scrapeHomepage":', error])
+		  	send(res, 500, `Error on server function 'scrapeHomepage'`)
 	  }
 	  // visit each image url and store the image src if it's been published after than the last download date
 	  let photosToDownload = []
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
 	  	console.log(photosToDownload)
 	  } catch (error) {
 	  		console.log(error)
-	  		send(res, 200, ['Error on server function "scrapeImageUrl":', error])
+	  		send(res, 500, `Error on server function 'scrapeImageUrl'`)
 	  }
 	  // download to server directory all of the recent images identified in each target account
 	  let downloadStatus = []
@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 	  	downloadStatus = await downloadToServer(photosToDownload)
 	  } catch (error) {
 	  		console.log(error)
-	  		send(res, 200, ['Error on server function "downloadToServer":', error])
+	  		send(res, 500, `Error on server function 'downloadToServer'`)
 	  }
 	  
 
