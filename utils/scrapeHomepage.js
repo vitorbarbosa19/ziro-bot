@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer')
 
-const scraper = async (accountsAndDates) => {
+const scrapeHomepage = (accountsAndDates) => {
   return Promise.all(accountsAndDates.map( ([account, lastDownload = new Date()]) => {
 		return new Promise( (resolve, reject) => {
 			puppeteer.launch().then(async browser => {
@@ -13,11 +13,11 @@ const scraper = async (accountsAndDates) => {
 					// wait 200 miliseconds for the new photos to appear
 					const sleep = require('sleep')
 					sleep.msleep(200)
-					// find all anchors tags on page
+					// find all anchors tags on home page
 					const allPageAnchors = await page.evaluate( () => {
 						return [].map.call(document.getElementsByTagName('a'), (anchorTag) => anchorTag.href)
 					})
-					// Get only the anchor tags that are photos
+					// Store only the anchor tags that are photo URLs
 					let brandImageUrls = []
 					allPageAnchors.map( (anchorTag) => {
 						if(anchorTag.search(/\?taken-by=/) !== -1)
@@ -33,4 +33,4 @@ const scraper = async (accountsAndDates) => {
   }))
 }
 
-module.exports = scraper
+module.exports = scrapeHomepage

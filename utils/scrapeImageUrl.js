@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 process.setMaxListeners(Infinity)
 
-const downloader = async (accountData) => {
+const scrapeImageUrl = (accountData) => {
 	return Promise.all(accountData.map( (account) => {
 		return Promise.all(account.imageUrls.map( (url) => {
 			return new Promise( (resolve, reject) => {
@@ -37,4 +37,4 @@ const downloader = async (accountData) => {
 	}))
 }
 
-module.exports = downloader
+module.exports = scrapeImageUrl
