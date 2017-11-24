@@ -25,7 +25,6 @@ module.exports = async (req, res) => {
 	  try {
 	  	const scrapeImageUrl = require('./utils/scrapeImageUrl')
 	  	photosToDownload = await scrapeImageUrl(imageUrlsToScrape)
-	  	console.log(photosToDownload)
 	  } catch (error) {
 	  		console.log(error)
 	  		send(res, 500, `Error on server function 'scrapeImageUrl'`)
@@ -39,7 +38,7 @@ module.exports = async (req, res) => {
 	  		console.log(error)
 	  		send(res, 500, `Error on server function 'downloadToServer'`)
 	  }
-	  
+	  console.log('Status:', downloadStatus)
 
 	  // const fs = require('fs')
 	  // fs.readFile('ziromoda-test/23668253_1923276864600271_5433236622755758080_n.jpg', (err, content) => {

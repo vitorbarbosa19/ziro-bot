@@ -24,6 +24,7 @@ const executeScraper = (account) => {
 						const photoSrc = pageImagesSrc[1]
 						resolve(photoSrc)	
 					}
+					resolve(null)
 				} catch (error) {
 						reject(error)
 				}
