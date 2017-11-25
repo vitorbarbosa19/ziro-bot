@@ -40,10 +40,13 @@ module.exports = async (req, res) => {
 	  }
 	  console.log('Status:', downloadStatus)
 
-	  // const fs = require('fs')
-	  // fs.readFile('ziromoda-test/23668253_1923276864600271_5433236622755758080_n.jpg', (err, content) => {
-	  // 	res.setHeader('Content-Disposition', 'attachment; filename=ziro.png')
-	  // 	send(res, 200, content)
-	  // })
+	 const fs = require('fs')
+	 const zipdir = require('zip-dir')
+	 zipdir('./images', { saveTo: './images.zip'}, function(err, buffer) {
+	 	fs.readFile('./images.zip', function(err, content) {
+	 		res.setHeader('Content-Disposition', 'attachment; filename=ziro.zip')
+	 		send(res, 200, content)
+	 	})
+	 })
 	}
 }
