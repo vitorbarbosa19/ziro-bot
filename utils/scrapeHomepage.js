@@ -10,7 +10,7 @@ const scrapeHomepage = (accountsAndDates) => {
 					await page.goto(`https://instagram.com/${account}`)
 					// find and click the button that will load 12 more photos, totaling 24
 					await page.click(`a[href^='/${account}/?max_id=']`)
-					// wait 200 miliseconds for the new photos to appear
+					// wait 200 miliseconds for the new photos to appear on page
 					const sleep = require('sleep')
 					sleep.msleep(200)
 					// find all anchors tags on home page

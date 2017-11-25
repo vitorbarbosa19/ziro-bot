@@ -1,7 +1,7 @@
 {
   "name": "ziro-bot",
   "version": "1.0.0",
-  "description": "Application that downloads photos from multiple ig accounts serving as an API for Ziro's catalog of clothes",
+  "description": "Application that lets Ziro's browser app clients download photos from multiple ig accounts",
   "main": "index.js",
   "repository": "https://github.com/vitorbarbosa19/ziro-bot",
   "scripts": {
@@ -19,10 +19,9 @@
     "axios": "^0.17.1",
     "dotenv": "^4.0.0",
     "image-downloader": "^3.3.0",
-    "jszip": "^3.1.5",
     "micro": "^9.0.0",
-    "mkdirp": "^0.5.1",
     "puppeteer": "^0.13.0",
+    "rmdir": "^1.2.0",
     "sleep": "^5.1.1",
     "zip-dir": "^1.0.2"
   },
