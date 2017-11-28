@@ -44,6 +44,7 @@ module.exports = async (req, res) => {
  			const zipWithImages = await downloadToClient()
  			res.setHeader('Content-Disposition', 'attachment; filename=images.zip')
  			send(res, 200, zipWithImages)
+ 			// clear directory by deleting the zip file and the images folder
  			const clearDirectory = require('./utils/clearDirectory')
  			console.log(await clearDirectory())
  		} catch (error) {
