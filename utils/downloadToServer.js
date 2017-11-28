@@ -1,16 +1,8 @@
 const fs = require('fs')
 const downloader = require('image-downloader')
-const rmdir = require('rmdir')
 
-const downloadToServer = async (photosToDownload) => {
-	fs.stat('./images', async (err, stats) => {
-		if(err)
-			fs.mkdirSync('./images')
-		else {
-			await rmdir('./images')
-			fs.mkdirSync('./images')
-		}
-	})
+const downloadToServer = (photosToDownload) => {
+	fs.mkdirSync('./images')
 	return Promise.all(photosToDownload.map( (accountPhotos) => {
   	return Promise.all(accountPhotos.photosSrcs.map( (photoSrc, index) => {
   		return new Promise( async (resolve, reject) => {
