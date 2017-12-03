@@ -1,30 +1,27 @@
 const express = require('express')
 const request = require('request')
 
-const brands = [
-	{
-		name: 'talgui',
-		url: 'https://scontent-lax3-2.cdninstagram.com/t51.2885-15/e35/24125712_1674678722603370_7799256208300310528_n.jpg'
-	},
-	{
-		name: 'luzia',
-		url: 'https://scontent-lax3-2.cdninstagram.com/t51.2885-15/e35/24125712_1674678722603370_7799256208300310528_n.jpg'
-	}
-]
-
-const getImages = (brands, res) => {
-	return Promise.all( brands.map( (brand) => {
-		return new Promise( (resolve, reject) => {
-			resolve(request(brand.url).pipe(res))
-		})
-	}))
+const brand = {
+	name: 'luzia',
+	url: 'https://instagram.fsnc1-1.fna.fbcdn.net/t51.2885-15/e35/23507546_970353509784421_6944867946179067904_n.jpg'
 }
+
+const igAccount = 'https://instagram.com/nuxxoficial'
 
 const app = express()
 
-app.get('/', async (req, res) => {
-	res.attachment('name.jpg')
-	await getImages(brands, res)
+app.get('/', (req, res) => {
+	res.attachment(`${brand.name}.jpg`)
+	request(brand.url).pipe(res)
+})
+
+app.get('/scraper', async (req, res) => {
+	const scrapeAccount = require('./functions/scrapeAccount')
+	anchorTagsHrefs = await scrapeAccount(igAccount)
+	const scrapeImagePage = require('./functions/scrapeImagePage')
+	imageSrcs = await scrapeImagePage(anchorTagsHrefs)
+	console.log(imageSrcs)
+	res.send(imageSrcs)
 })
 
 app.listen(3000, () => console.log('Listening on port 3000'))
