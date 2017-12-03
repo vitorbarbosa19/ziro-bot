@@ -1,5 +1,4 @@
 const { send } = require('micro')
-const request = require('request')
 const url = require('url')
 
 module.exports = async (req, res) => {
@@ -17,7 +16,13 @@ module.exports = async (req, res) => {
 				const brandName = url.parse(req.url, true).query.name
 				const imageUrl = url.parse(req.url, true).query.url
 				res.setHeader('Content-Disposition', `attachment; filename=${brandName}.jpg`)
+				const request = require('request')
 				request(imageUrl).pipe(res)
+				break
+			case '/accounts':
+				require('dotenv').config()
+				const requestPromise = require('request-promise-native')		
+				send(res, 200, await requestPromise(`https://sheets.googleapis.com/v4/spreadsheets/${process.env.ACCOUNTS_SHEET_ID}/values/fornecedores?key=${process.env.API_KEY}`))
 				break
 			default:
 				send(res, 404, 'Rota não encontrada.')
