@@ -4,13 +4,10 @@ const url = require('url')
 const app = express()
 
 try {
-	app.use( (req, res, next) => {
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		next()
-	})
 	app.get('/accounts', async (req, res) => {
 		require('dotenv').config()
 		const requestPromise = require('request-promise-native')
+		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.send(await requestPromise(`https://sheets.googleapis.com/v4/spreadsheets/${process.env.ACCOUNTS_SHEET_ID}/values/fornecedores?key=${process.env.API_KEY}`))
 	})
 	app.get('/scrape', async (req, res) => {
@@ -18,21 +15,25 @@ try {
 		const igAccount = url.parse(req.url, true).query.account
 		const anchorTagsHrefs = await scrapeAccount(igAccount)
 		const scrapeImagePage = require('./functions/scrapeImagePage')
+		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.send(await scrapeImagePage(anchorTagsHrefs))
 	})
 	app.get('/download', async (req, res) => {
 		const brandName = url.parse(req.url, true).query.name
 		const imageUrl = url.parse(req.url, true).query.url
+		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.setHeader('Content-Disposition', `attachment; filename=${brandName}.jpg`)
 		const request = require('request')
 		request(imageUrl).pipe(res)
 	})
 	app.use( (req, res, next) => {
+		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.status(404).send('Rota não encontrada')
 		next()
 	})
 	app.use( (error, req, res) => {
 		console.error(error.stack)
+		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.status(500).send(error.stack)
 	})
 } catch (error) {
