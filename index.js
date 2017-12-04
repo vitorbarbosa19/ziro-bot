@@ -1,38 +1,40 @@
-const { send } = require('micro')
+const express = require('express')
 const url = require('url')
 
-module.exports = async (req, res) => {
-	try {
-		const route = url.parse(req.url, true).pathname
-		switch (route) {
-			case '/scrape':
-				const scrapeAccount = require('./functions/scrapeAccount')
-				const igAccount = url.parse(req.url, true).query.account
-				const anchorTagsHrefs = await scrapeAccount(igAccount)
-				const scrapeImagePage = require('./functions/scrapeImagePage')
-				send(res, 200, await scrapeImagePage(anchorTagsHrefs))
-				break
-			case '/download':
-				const brandName = url.parse(req.url, true).query.name
-				const imageUrl = url.parse(req.url, true).query.url
-				res.setHeader('Content-Disposition', `attachment; filename=${brandName}.jpg`)
-				const request = require('request')
-				request(imageUrl).pipe(res)
-				break
-			case '/accounts':
-				require('dotenv').config()
-				const requestPromise = require('request-promise-native')		
-				send(res, 200, await requestPromise(`https://sheets.googleapis.com/v4/spreadsheets/${process.env.ACCOUNTS_SHEET_ID}/values/fornecedores?key=${process.env.API_KEY}`))
-				break
-			default:
-				send(res, 404, 'Rota não encontrada.')
-				break
-		}
-	} catch (error) {
-		console.log(error)
-		send(res, 500, error)
-	}
+const app = express()
+
+try {
+	app.get('/scrape', async (req, res) => {
+		const scrapeAccount = require('./functions/scrapeAccount')
+		const igAccount = url.parse(req.url, true).query.account
+		const anchorTagsHrefs = await scrapeAccount(igAccount)
+		const scrapeImagePage = require('./functions/scrapeImagePage')
+		res.setHeader('Access-Control-Allow-Origin', '*')
+		res.send(await scrapeImagePage(anchorTagsHrefs))
+	})
+	app.get('/download', async (req, res) => {
+		const brandName = url.parse(req.url, true).query.name
+		const imageUrl = url.parse(req.url, true).query.url
+		res.setHeader('Content-Disposition', `attachment; filename=${brandName}.jpg`)
+		const request = require('request')
+		res.setHeader('Access-Control-Allow-Origin', '*')
+		request(imageUrl).pipe(res)
+	})
+	app.get('/accounts', async (req, res) => {
+		require('dotenv').config()
+		const requestPromise = require('request-promise-native')
+		res.setHeader('Access-Control-Allow-Origin', '*')
+		res.send(await requestPromise(`https://sheets.googleapis.com/v4/spreadsheets/${process.env.ACCOUNTS_SHEET_ID}/values/fornecedores?key=${process.env.API_KEY}`))
+	})
+	app.use( (req, res) => {
+		res.status(404).send('Rota não encontrada')
+	})
+} catch (error) {
+	console.log(error)
+	res.status(500).send(error)
 }
+
+app.listen(process.env.PORT || 5000, () => console.log('Listening on port 5000'))
 
 // https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/24175703_131548277520404_1511259246111490048_n.jpg
 // https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/24175084_490955741289301_7774733620077395968_n.jpg
