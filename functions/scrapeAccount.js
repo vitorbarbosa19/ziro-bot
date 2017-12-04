@@ -1,6 +1,8 @@
 const scrapeAccount = async (igAccount) => {
 	const puppeteer = require('puppeteer')
-	const browser = await puppeteer.launch()
+	const browser = await puppeteer.launch({
+		args:['--no-sandbox', '--disable-setuid-sandbox']
+	})
 	const page = await browser.newPage()
 	await page.goto(`https://instagram.com/${igAccount}`)
 	const anchorTagsHrefs = await page.$$eval('a', (anchorTags) => {

@@ -1,6 +1,8 @@
 const scrapeImagePage = async (anchorTagsHrefs) => {
 	const puppeteer = require('puppeteer')
-	const browser = await puppeteer.launch()
+	const browser = await puppeteer.launch({
+		args:['--no-sandbox', '--disable-setuid-sandbox']
+	})
 	const page = await browser.newPage()
 	const imageSrcs = []
 	for (let index = 0; index < anchorTagsHrefs.length; index++) {
