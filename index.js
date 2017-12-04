@@ -27,12 +27,16 @@ try {
 		const request = require('request')
 		request(imageUrl).pipe(res)
 	})
-	app.use( (req, res) => {
+	app.use( (req, res, next) => {
 		res.status(404).send('Rota não encontrada')
+		next()
+	})
+	app.use( (error, req, res) => {
+		console.error(error.stack)
+		res.status(500).send(error.stack)
 	})
 } catch (error) {
 	console.log(error)
-	res.status(500).send(error)
 }
 
 app.listen(process.env.PORT || 5000, () => console.log('Listening on port 5000'))

@@ -1,3 +1,5 @@
+process.setMaxListeners(Infinity)
+
 const scrapeImagePage = async (anchorTagsHrefs) => {
 	const puppeteer = require('puppeteer')
 	const browser = await puppeteer.launch({
