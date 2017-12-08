@@ -1,21 +1,17 @@
 const main = async () => {
 	try {
-		require('dotenv').config()
-		// get brands information from google spreadsheet
-		const requestPromise = require('request-promise-native')
-		const brandsInfo = JSON.parse(await requestPromise(process.env.SPREADSHEET_URL))
-		// save the name of all instagram accounts on an array and remove first element (sheet column title)
-		//const igAccounts = brandsInfo.values.map( (brandInfo) => brandInfo[1])
-		//igAccounts.shift()
+		const getBrands = require('./functions/getBrands')
+		const igAccounts = await getBrands()
+		console.log(igAccounts)
 		// iterate over each instagram account to grab from their feeds all recent images URLs
-		const igAccounts = ['luziafazzollioficial']
-		const scrapeAccount = require('./functions/scrapeAccount')
-		const scrapeImagePage = require('./functions/scrapeImagePage')
-		const accountsAndImagesToDownload = []
-		for (let i = 0; i < igAccounts.length; i++) {
-			const anchorTagsHrefs = await scrapeAccount(igAccounts[i])
-			const imagesToDownload = await scrapeImagePage(anchorTagsHrefs)
-		}
+		// const igAccounts = ['luziafazzollioficial']
+		// const scrapeAccount = require('./functions/scrapeAccount')
+		// const scrapeImagePage = require('./functions/scrapeImagePage')
+		// const accountsAndImagesToDownload = []
+		// for (let i = 0; i < igAccounts.length; i++) {
+		// 	const anchorTagsHrefs = await scrapeAccount(igAccounts[i])
+		// 	const imagesToDownload = await scrapeImagePage(anchorTagsHrefs, igAccounts[i])
+		// }
 	} catch (error) {
 		console.log(error)
 	}

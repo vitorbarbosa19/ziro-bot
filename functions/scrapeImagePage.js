@@ -1,4 +1,4 @@
-const scrapeImagePage = async (anchorTagsHrefs) => {
+const scrapeImagePage = async (anchorTagsHrefs, account) => {
 	const puppeteer = require('puppeteer')
 	const browser = await puppeteer.launch({
 		args:['--no-sandbox', '--disable-setuid-sandbox']
@@ -16,7 +16,7 @@ const scrapeImagePage = async (anchorTagsHrefs) => {
 			return /\/e35\//.test(value)
 		})
 		//imageSrcs.push(evalResult.pop())
-		await request(filteredResult.pop()).pipe(fs.createWriteStream(`images/${index}.jpg`))
+		await request(filteredResult.pop()).pipe(fs.createWriteStream(`images/${account}-${index}.jpg`))
 	}
 	await browser.close()
 	return imageSrcs
