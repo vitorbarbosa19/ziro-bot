@@ -1,5 +1,6 @@
 const scrapeAccount = async (igAccount) => {
 	const puppeteer = require('puppeteer')
+	//args make deployment to Heroku possible
 	const browser = await puppeteer.launch({
 		args:['--no-sandbox', '--disable-setuid-sandbox']
 	})

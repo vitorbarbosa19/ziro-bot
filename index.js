@@ -12,11 +12,25 @@ try {
 	})
 	app.get('/scrape', async (req, res) => {
 		const scrapeAccount = require('./functions/scrapeAccount')
-		const igAccount = url.parse(req.url, true).query.account
-		const anchorTagsHrefs = await scrapeAccount(igAccount)
 		const scrapeImagePage = require('./functions/scrapeImagePage')
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		res.send(await scrapeImagePage(anchorTagsHrefs))
+		const accountsAndImagesToDownload = []
+		const test = ["limonemodas", "averarafashion", "talguistore", "luziafazzollioficial", "coinageoficial"]
+		for (let i = 0; i < test.length; i++) {
+			const anchorTagsHrefs = await scrapeAccount(test[i])
+			const imagesToDownload = await scrapeImagePage(anchorTagsHrefs)
+			accountsAndImagesToDownload.push({
+				name: test[i],
+				images: imagesToDownload
+			})
+			res.setHeader('Access-Control-Allow-Origin', '*')
+			res.send(accountsAndImagesToDownload)
+		}
+		// const scrapeAccount = require('./functions/scrapeAccount')
+		// const igAccount = url.parse(req.url, true).query.account
+		// const anchorTagsHrefs = await scrapeAccount(igAccount)
+		// const scrapeImagePage = require('./functions/scrapeImagePage')
+		// res.setHeader('Access-Control-Allow-Origin', '*')
+		// res.send(await scrapeImagePage(anchorTagsHrefs))
 	})
 	app.get('/download', async (req, res) => {
 		const brandName = url.parse(req.url, true).query.name
