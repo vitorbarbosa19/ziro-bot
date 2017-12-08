@@ -1,60 +1,32 @@
-const express = require('express')
-const url = require('url')
-
-const app = express()
-
-try {
-	app.get('/accounts', async (req, res) => {
+const main = async () => {
+	try {
 		require('dotenv').config()
+		// get brands information from google spreadsheet
 		const requestPromise = require('request-promise-native')
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		res.send(await requestPromise(`https://sheets.googleapis.com/v4/spreadsheets/${process.env.ACCOUNTS_SHEET_ID}/values/fornecedores?key=${process.env.API_KEY}`))
-	})
-	app.get('/scrape', async (req, res) => {
+		const brandsInfo = JSON.parse(await requestPromise(process.env.SPREADSHEET_URL))
+		// save the name of all instagram accounts on an array and remove first element (sheet column title)
+		//const igAccounts = brandsInfo.values.map( (brandInfo) => brandInfo[1])
+		//igAccounts.shift()
+		// iterate over each instagram account to grab from their feeds all recent images URLs
+		const igAccounts = ['luziafazzollioficial']
 		const scrapeAccount = require('./functions/scrapeAccount')
 		const scrapeImagePage = require('./functions/scrapeImagePage')
 		const accountsAndImagesToDownload = []
-		const test = ["limonemodas", "averarafashion", "talguistore", "luziafazzollioficial", "coinageoficial"]
-		for (let i = 0; i < test.length; i++) {
-			const anchorTagsHrefs = await scrapeAccount(test[i])
+		for (let i = 0; i < igAccounts.length; i++) {
+			const anchorTagsHrefs = await scrapeAccount(igAccounts[i])
 			const imagesToDownload = await scrapeImagePage(anchorTagsHrefs)
-			accountsAndImagesToDownload.push({
-				name: test[i],
-				images: imagesToDownload
-			})
 		}
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		res.send(accountsAndImagesToDownload)
-		// const scrapeAccount = require('./functions/scrapeAccount')
-		// const igAccount = url.parse(req.url, true).query.account
-		// const anchorTagsHrefs = await scrapeAccount(igAccount)
-		// const scrapeImagePage = require('./functions/scrapeImagePage')
-		// res.setHeader('Access-Control-Allow-Origin', '*')
-		// res.send(await scrapeImagePage(anchorTagsHrefs))
-	})
-	app.get('/download', async (req, res) => {
-		const brandName = url.parse(req.url, true).query.name
-		const imageUrl = url.parse(req.url, true).query.url
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		res.setHeader('Content-Disposition', `attachment; filename=${brandName}.jpg`)
-		const request = require('request')
-		request(imageUrl).pipe(res)
-	})
-	app.use( (req, res, next) => {
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		res.status(404).send('Rota não encontrada')
-		next()
-	})
-	app.use( (error, req, res) => {
-		console.error(error.stack)
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		res.status(500).send(error.stack)
-	})
-} catch (error) {
-	console.log(error)
+	} catch (error) {
+		console.log(error)
+	}
 }
 
-app.listen(process.env.PORT || 5000, () => console.log('Listening on port 5000'))
+main()
+
+	// const brandName = url.parse(req.url, true).query.name
+	// const imageUrl = url.parse(req.url, true).query.url
+	// const request = require('request')
+	// request(imageUrl).pipe(res)
 
 // https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/24175703_131548277520404_1511259246111490048_n.jpg
 // https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/24175084_490955741289301_7774733620077395968_n.jpg
