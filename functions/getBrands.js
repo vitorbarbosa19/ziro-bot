@@ -9,7 +9,10 @@ const getBrands = async () => {
 		igAccounts.shift()
 		return igAccounts
 	} catch (error) {
-		return error
+		return {
+			message: 'Error on function getBrands()',
+			error: error
+		}
 	}
 }
 

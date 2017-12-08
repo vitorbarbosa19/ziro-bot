@@ -1,28 +1,16 @@
-const main = async () => {
+const bot = async () => {
 	try {
 		const getBrands = require('./functions/getBrands')
 		const igAccounts = await getBrands()
-		console.log(igAccounts)
-		// iterate over each instagram account to grab from their feeds all recent images URLs
-		// const igAccounts = ['luziafazzollioficial']
-		// const scrapeAccount = require('./functions/scrapeAccount')
-		// const scrapeImagePage = require('./functions/scrapeImagePage')
-		// const accountsAndImagesToDownload = []
-		// for (let i = 0; i < igAccounts.length; i++) {
-		// 	const anchorTagsHrefs = await scrapeAccount(igAccounts[i])
-		// 	const imagesToDownload = await scrapeImagePage(anchorTagsHrefs, igAccounts[i])
-		// }
+		const scraper = require('./functions/scraper')
+		const igAccountsTest = ['luziafazzollioficial']
+		console.log(await scraper(igAccountsTest))
 	} catch (error) {
 		console.log(error)
 	}
 }
 
-main()
-
-	// const brandName = url.parse(req.url, true).query.name
-	// const imageUrl = url.parse(req.url, true).query.url
-	// const request = require('request')
-	// request(imageUrl).pipe(res)
+bot()
 
 // https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/24175703_131548277520404_1511259246111490048_n.jpg
 // https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/24175084_490955741289301_7774733620077395968_n.jpg

@@ -8,6 +8,9 @@
     "node",
     "puppeteer"
   ],
+  "scripts": {
+    "bot": "node index"
+  },
   "author": "Vitor Barbosa",
   "license": "ISC",
   "dependencies": {
