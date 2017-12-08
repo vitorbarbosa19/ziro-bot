@@ -22,9 +22,9 @@ try {
 				name: test[i],
 				images: imagesToDownload
 			})
-			res.setHeader('Access-Control-Allow-Origin', '*')
-			res.send(accountsAndImagesToDownload)
 		}
+		res.setHeader('Access-Control-Allow-Origin', '*')
+		res.send(accountsAndImagesToDownload)
 		// const scrapeAccount = require('./functions/scrapeAccount')
 		// const igAccount = url.parse(req.url, true).query.account
 		// const anchorTagsHrefs = await scrapeAccount(igAccount)
