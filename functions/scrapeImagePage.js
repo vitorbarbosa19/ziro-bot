@@ -8,17 +8,13 @@ const scrapeImagePage = async (anchorTagsHrefs, account) => {
 	const fs = require('fs')
 	for (let index = 0; index < anchorTagsHrefs.length; index++) {
 		await page.goto(anchorTagsHrefs[index], { timeout: 60000 })
-		// scrape the published date of the image, so we can skip it if not newer than our last download date
+		// scrape the published date of the image, so we can skip it if older than our last download date
 		const times = await page.$$eval('time', (timeTags) => {
 			return Array.prototype.map.call(timeTags, (time) => time.getAttribute('datetime'))
 		})
-		// scrape images src on the page. Will bring the logo's and the desired image's
-		let imagesSrcs = await page.$$eval('img', (imageTags) => {
+		// scrape src of image on the page. Exclude the logo using the sibling selector: header + div img
+		let imageSrc = await page.$$eval('header + div img', (imageTags) => {
 			return Array.prototype.map.call(imageTags, (img) => img.src)
-		})
-		// filter away the logo src, leaving only the desired image src
-		let imageSrc = imagesSrcs.filter( (src) => {
-			return /\/e35\//.test(src)
 		})
 		// if no image was found, it's probably because the media is a video, so we should get the poster
 		if (imageSrc.length === 0) {
@@ -27,7 +23,9 @@ const scrapeImagePage = async (anchorTagsHrefs, account) => {
 			})
 		}
 		// download each image to a directory by requesting the url and piping to a jpg file
-		await request(imageSrc.pop()).pipe(fs.createWriteStream(`images/${account}-${index}.jpg`))
+		if (typeof imageSrc !== 'undefined') {
+			await request(imageSrc.toString()).pipe(fs.createWriteStream(`images/${account}-${index}.jpg`))
+		}
 	}
 	await browser.close()
 }
