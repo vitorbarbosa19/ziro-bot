@@ -1,23 +1,29 @@
 const scrapeImagePage = async (anchorTagsHrefs, account) => {
+	// initialize puppeteer and navigate to image page
 	const puppeteer = require('puppeteer')
 	const browser = await puppeteer.launch({ timeout: 60000 })
 	const page = await browser.newPage()
-	const imageSrcs = []
+	// scrape from each image page the image src url
 	const request = require('request')
 	const fs = require('fs')
 	for (let index = 0; index < anchorTagsHrefs.length; index++) {
 		await page.goto(anchorTagsHrefs[index], { timeout: 60000 })
-		const evalResult = await page.$$eval('img', (imageTags) => {
+		let imagesSrcs = await page.$$eval('img', (imageTags) => {
 			return Array.prototype.map.call(imageTags, (img) => img.src)
 		})
-		const filteredResult = evalResult.filter( (value) => {
-			return /\/e35\//.test(value)
+		let imageSrc = imagesSrcs.filter( (src) => {
+			return /\/e35\//.test(src)
 		})
-		//imageSrcs.push(evalResult.pop())
-		await request(filteredResult.pop()).pipe(fs.createWriteStream(`images/${account}-${index}.jpg`))
+		// if no image was found, it's probably because the media is a video, so we should get the poster
+		if (imageSrc.length === 0) {
+			imageSrc = await page.$$eval('video', (videoTags) => {
+				return Array.prototype.map.call(videoTags, (video) => video.poster)
+			})
+		}
+		// download each image to a directory by requesting the url and piping to a jpg file
+		await request(imageSrc.pop()).pipe(fs.createWriteStream(`images/${account}-${index}.jpg`))
 	}
 	await browser.close()
-	return imageSrcs
 }
 
 module.exports = scrapeImagePage
