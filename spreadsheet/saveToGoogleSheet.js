@@ -1,14 +1,17 @@
 const saveToGoogleSheet = async () => {
 	try {
+		const accountsScraped = ['limonemodas', 'averarafashion']
 		const auth = require('./authenticate')
 		const { authResult, sheet } = await auth()
 		if (authResult === 'success') {
-			sheet.getCells(1, (error, cells) => {
-				if (error) {
-					console.log(error)
-				}
-				cells.map( (cell) => {
-					console.log(cell.value)
+			sheet.getRows(1, (error, rows) => {
+				accountsScraped.map( (account) => {
+					rows.map( (row) => {
+						if (account === row.instagram) {
+							row.update = '2017-11-30T12:00:00.000Z'
+							row.save()
+						}
+					})
 				})
 			})
 		}
