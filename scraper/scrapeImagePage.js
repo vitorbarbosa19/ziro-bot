@@ -9,25 +9,28 @@ const scrapeImagePage = async (anchorTagsHrefs, account) => {
 	for (let index = 0; index < anchorTagsHrefs.length; index++) {
 		await page.goto(anchorTagsHrefs[index], { timeout: 60000 })
 		// scrape the published date of the image, so we can skip it if older than our last download date
-		const times = await page.$$eval('time', (timeTags) => {
+		const publishedDate = await page.$$eval('time', (timeTags) => {
 			return Array.prototype.map.call(timeTags, (time) => time.getAttribute('datetime'))
 		})
-		// scrape src of image on the page. Exclude the logo using the sibling selector: header + div img
-		let imageSrc = await page.$$eval('header + div img', (imageTags) => {
-			return Array.prototype.map.call(imageTags, (img) => img.src)
-		})
-		// if no image was found, it's probably because the media is a video, so we should get the poster
-		if (imageSrc.length === 0) {
-			imageSrc = await page.$$eval('video', (videoTags) => {
-				return Array.prototype.map.call(videoTags, (video) => video.poster)
+		if (publishedDate > account.update) {
+			// scrape src of image on the page. Exclude the logo using the sibling selector: header + div img
+			let imageSrc = await page.$$eval('header + div img', (imageTags) => {
+				return Array.prototype.map.call(imageTags, (img) => img.src)
 			})
-		}
-		// download each image to a directory by requesting the url and piping to a jpg file
-		if (typeof imageSrc !== 'undefined') {
-			await request(imageSrc.toString()).pipe(fs.createWriteStream(`images/${account}-${index}.jpg`))
-		}
+			// if no image was found, it's probably because the media is a video, so we should get the poster
+			if (imageSrc.length === 0) {
+				imageSrc = await page.$$eval('video', (videoTags) => {
+					return Array.prototype.map.call(videoTags, (video) => video.poster)
+				})
+			}
+			// download each image to a directory by requesting the url and piping to a jpg file
+			if (typeof imageSrc !== 'undefined') {
+				await request(imageSrc.toString()).pipe(fs.createWriteStream(`images/${account.name}-${index}.jpg`))
+			}
+		} else break
 	}
 	await browser.close()
+	return new Date(Date.now())
 }
 
 module.exports = scrapeImagePage

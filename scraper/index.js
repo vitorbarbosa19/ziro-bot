@@ -5,9 +5,9 @@ const scraper = async (igAccounts) => {
 		const scrapeImagePage = require('./scrapeImagePage')
 		for (let index = 0; index < igAccounts.length; index++) {
 			const anchorTagsHrefs = await scrapeAccount(igAccounts[index])
-			const imagesToDownload = await scrapeImagePage(anchorTagsHrefs, igAccounts[index])
+			igAccounts[index].update = await scrapeImagePage(anchorTagsHrefs, igAccounts[index])
 		}
-		return 'Success'
+		return igAccounts
 	} catch (error) {
 		return {
 			message: 'Error on function scraper()',
