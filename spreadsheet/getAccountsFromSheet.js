@@ -1,4 +1,4 @@
-const getBrands = async () => {
+const getAccountsFromSheet = async () => {
 	try {
 		require('dotenv').config()
 		// get brands information from google spreadsheet
@@ -16,4 +16,4 @@ const getBrands = async () => {
 	}
 }
 
-module.exports = getBrands
+module.exports = getAccountsFromSheet
