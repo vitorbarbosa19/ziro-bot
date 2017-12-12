@@ -2,4 +2,5 @@ node_modules
 .DS_Store
 .env
 sheetUpdater/credentials_original.json
+sheetUpdater/credentials_google.json
 
