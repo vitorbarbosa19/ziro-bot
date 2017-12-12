@@ -9,9 +9,10 @@ const scrapeImagePage = async (anchorTagsHrefs, account) => {
 	for (let index = 0; index < anchorTagsHrefs.length; index++) {
 		await page.goto(anchorTagsHrefs[index], { timeout: 60000 })
 		// scrape the published date of the image, so we can skip it if older than our last download date
-		const publishedDate = await page.$$eval('time', (timeTags) => {
+		const publishedDates = await page.$$eval('time', (timeTags) => {
 			return Array.prototype.map.call(timeTags, (time) => time.getAttribute('datetime'))
 		})
+		const publishedDate = new Date(publishedDates.pop())
 		if (publishedDate > account.update) {
 			// scrape src of image on the page. Exclude the logo using the sibling selector: header + div img
 			let imageSrc = await page.$$eval('header + div img', (imageTags) => {
