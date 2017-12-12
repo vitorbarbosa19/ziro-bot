@@ -1,5 +1,5 @@
 node_modules
 .DS_Store
 .env
-spreadsheet/credentials_original.json
+sheetUpdater/credentials_original.json
 

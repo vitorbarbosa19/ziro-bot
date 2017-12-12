@@ -45,8 +45,8 @@ const parseDate = (date) => {
 				convertedMonth = '12'
 				break
 		}
-		// return parsed UTC date
-		return `${year}-${convertedMonth}-${day}T${hour}:${minute}:${second}.000Z`
+		// return parsed UTC date added of 8 hours to compensate timezone
+		return new Date(Date.parse(`${year}-${convertedMonth}-${day}T${hour}:${minute}:${second}.000Z`) + 1000 * 60 * 60 * 8)
 	} catch (error) {
 		return error
 	}
