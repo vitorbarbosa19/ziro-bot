@@ -14,7 +14,7 @@ const authenticate = () => {
 					})
 				resolve({
 					authResult: 'success',
-					sheet: spreadsheet
+					spreadsheet: spreadsheet
 				})
 			})
 		})
