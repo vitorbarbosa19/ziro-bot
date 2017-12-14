@@ -16,7 +16,7 @@ const getAccountsFromSheet = async () => {
 		return igAccounts
 	} catch (error) {
 		return {
-			message: 'Error on function getBrands()',
+			message: 'Error on function getAccountsFromSheet()',
 			error: error
 		}
 	}
