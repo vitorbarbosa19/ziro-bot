@@ -6,6 +6,7 @@ const parseDate = (date) => {
 		const hour = date.slice(16,18)
 		const minute = date.slice(19,21)
 		const second = date.slice(22,24)
+		const timezone = parseInt(date.slice(30,31))
 		let convertedMonth
 		switch (month) {
 			case 'Jan':
@@ -45,8 +46,9 @@ const parseDate = (date) => {
 				convertedMonth = '12'
 				break
 		}
-		// return parsed UTC date added of 8 hours to compensate timezone
-		return new Date(Date.parse(`${year}-${convertedMonth}-${day}T${hour}:${minute}:${second}.000Z`) + 1000 * 60 * 60 * 8)
+		// return parsed UTC date with appropriately shifted timezone
+		return new Date(Date.parse(`${year}-${convertedMonth}-${day}T${hour}:${minute}:${second}.000Z`)
+		+ 1000 * 60 * 60 * timezone)
 	} catch (error) {
 		return error
 	}
