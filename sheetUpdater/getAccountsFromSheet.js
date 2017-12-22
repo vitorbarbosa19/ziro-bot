@@ -9,7 +9,8 @@ const getAccountsFromSheet = async () => {
 		const igAccounts = brandsInfo.values.map( (brandInfo) => {
 			return {
 				name: brandInfo[1],
-				update: parseDate(brandInfo[3])
+				update: parseDate(brandInfo[3]),
+				brand: brandInfo[0]
 			}
 		})
 		igAccounts.shift()
