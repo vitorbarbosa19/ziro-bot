@@ -31,15 +31,7 @@ puppeteer.launch().then( async (browser) => {
 		}
 		console.log(await page.cookies())
 		await browser.close()
-		// const inputTags = await page.$$eval('input', (inputTags) => {
-		// 	return Array.prototype.map.call(inputTags, input => input.placeholder)
-		// })
-		// console.log(inputTags)
-		
 	} catch (error) {
 		console.log(error)
 	}
 })
-
-// Poema Hit Stories feed
-// https://i.instagram.com/api/v1/feed/user/198255331/story/
