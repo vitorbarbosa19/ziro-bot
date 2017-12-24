@@ -3,4 +3,6 @@ node_modules
 .env
 sheetUpdater/credentials_original.json
 sheetUpdater/credentials_google.json
+cookies.js
+screenshots
 
