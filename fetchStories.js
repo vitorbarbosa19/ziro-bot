@@ -1,7 +1,7 @@
 const fetchStories = async () => {
 	try {
 		const fetchAccountId = require('./fetchAccountId')
-		const account_name = 'lovlity'
+		const account_name = 'limonemodas'
 		const account_id = await fetchAccountId(account_name)
 		const getFromCookieFile = require('./getFromCookieFile')
 		const parameters = {
@@ -23,13 +23,10 @@ const fetchStories = async () => {
 		})
 		const media = JSON.parse(response).reel.items
 		const images = media.map( (item) => {
-			console.log(item.image_versions2.candidates)
 			return item.image_versions2.candidates.filter( (image) => {
 				return image.height > 1000
 			}).pop()
 		})
-		console.log('\n\n\n\n\n')
-		console.log(images)
 		const request = require('request')
 		const fs = require('fs')
 		for (index = 0; index < images.length; index++) {

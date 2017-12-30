@@ -29,7 +29,9 @@ puppeteer.launch().then( async (browser) => {
 			await page.waitForNavigation()
 			await page.screenshot({ path: './screenshots/postChallenge.jpg' })
 		}
-		console.log(await page.cookies())
+		const cookies = await page.cookies()
+		const writeCookieFile = require('./writeCookieFile')
+		console.log(await writeCookieFile(cookies))
 		await browser.close()
 	} catch (error) {
 		console.log(error)
