@@ -4,8 +4,8 @@ const scrapeAccount = async (igAccount) => {
 	const browser = await puppeteer.launch({ timeout: 60000 })
 	const page = await browser.newPage()
 	await page.goto(`https://instagram.com/${igAccount.name}`, { timeout: 60000 })
-	// find and click on 'load more' button to load 12 more images, waiting 300ms for them to load on screen
-	await page.click(`a[href*='/${igAccount.name}/?max_id=']`)
+	// scrolls to bottom of page to load 12 more photos
+	await page.evaluate( () => window.scrollBy(0, window.innerHeight))
 	await page.waitFor(500)
 	// scrape all anchor tags on the page, aiming to find the 24 images loaded on screen
 	const anchorTagsHrefs = await page.$$eval('a', (anchorTags) => {

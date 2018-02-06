@@ -7,11 +7,14 @@ const scraper = async (igAccounts) => {
 			const anchorTagsHrefs = await scrapeAccount(igAccounts[index])
 			igAccounts[index].update = await scrapeImagePage(anchorTagsHrefs, igAccounts[index])
 		}
-		return igAccounts
+		return {	
+			message: 'Success',
+			data: igAccounts
+		}
 	} catch (error) {
 		return {
 			message: 'Error on function scraper()',
-			error: error
+			data: error
 		}
 	}
 }
