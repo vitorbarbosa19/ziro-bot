@@ -14,7 +14,7 @@ const scrapeAccount = async (igAccount) => {
 	await browser.close()
 	// filter the anchor tags, leaving only the ones that are images
 	const filteredAnchorTagsHrefs = anchorTagsHrefs.filter( (anchorTagHref) => {
-		return /\/\?taken-by=/.test(anchorTagHref)
+		return anchorTagHref.includes('https://www.instagram.com/p/')
 	})
 	return filteredAnchorTagsHrefs
 }

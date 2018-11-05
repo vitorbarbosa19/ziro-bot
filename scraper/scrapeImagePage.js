@@ -26,7 +26,7 @@ const scrapeImagePage = async (anchorTagsHrefs, account) => {
 			}
 			// download each image to a directory by requesting the url and piping to a jpg file
 			if (typeof imageSrc !== 'undefined') {
-				await request(imageSrc.toString()).pipe(fs.createWriteStream(`images/${account.brand}-${index}.jpg`))
+				await request(imageSrc[0]).pipe(fs.createWriteStream(`images/${account.brand}-${index}.jpg`))
 			}
 		} else break
 	}
