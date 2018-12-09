@@ -1,7 +1,6 @@
 {
   "name": "ziro-bot",
   "version": "1.0.0",
-  "description": "Program that downloads photos scraped from multiple ig accounts chosen by the user",
   "main": "index.js",
   "repository": "https://github.com/vitorbarbosa19/ziro-bot",
   "keywords": [
